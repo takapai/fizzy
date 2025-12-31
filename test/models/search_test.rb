@@ -15,6 +15,11 @@ class SearchTest < ActiveSupport::TestCase
     results = Search::Record.for(@user.account_id).search("overflowing", user: @user)
     assert results.find { |it| it.card_id == comment_card.id && it.searchable_type == "Comment" }
 
+    # Searching by CJK characters
+    card = @board.cards.create!(title: "日本語のカード", creator: @user)
+    results = Search::Record.for(@user.account_id).search("日本語のカード", user: @user)
+    assert results.find { |it| it.card_id == card.id }
+
     # Don't include inaccessible boards
     other_user = User.create!(name: "Other User", account: @account)
     inaccessible_board = Board.create!(name: "Inaccessible Board", account: @account, creator: other_user)
