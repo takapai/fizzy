@@ -13,7 +13,7 @@ class Search::Highlighter
     result = text.dup
 
     terms.each do |term|
-      result.gsub!(/\b(#{Regexp.escape(term)}\w*)\b/i) do |match|
+      result.gsub!(/(#{Regexp.escape(term)}\w*)/i) do |match|
         "#{OPENING_MARK}#{match}#{CLOSING_MARK}"
       end
     end
